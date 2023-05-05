@@ -248,4 +248,88 @@ SQL>DROP TABLE TABLE_NAME;
 TRUNCATE:IT DELETES COMPLETE DATA FROM THE TABLE.
 SYNTAX OF TRUNCATE:
 SQL>TRUNCATE TABLE TABLE_NAME;
+
+SELECT COMMAND-DML
+
+Select specific attribute:
+SQL> select name from demo;
+
+NAME
+------------------------------
+Raktim Bar
+Rahim
+
+Select Distict Attribute values:
+
+SQL> select name from demo;
+
+NAME
+------------------------------
+Raktim Bar
+Rahim
+Raktim Bar
+
+
+
+
+SQL> select distinct name from demo;
+
+NAME
+------------------------------
+Raktim Bar
+Rahim
+
+1.Select those marks>90
+
+SQL>Select * from table_name where marks>90;
+
+2.Select those marks<90
+SQL>Select * from table_name where marks<90;
+
+3.Select those marks>90 and name="Ram";
+SQL>Select * from table_name where marks>90 and name="Ram";
+
+4.Select group By Marks in Ascending order.
+SQL>Select * from table_name group by marks asc;
+
+5.Select group By Marks in Descending order.
+SQL>Select * from table_name group by marks desc;
+
+6.Select group by name in Descending order.
+SQL>Select * from table_name group by name desc;
+
+7.Starts with 'R'
+SQL>Select * from table_name 
+where name like 'R%';
+
+8.Ends with 'R'
+SQL>Select * from table_name 
+where name like '%R';
+
+9.Search in between words.
+SQL>Select * from table_name 
+where name like '%im%';
+
+10.Search marks 90,91
+SQL>Select * from table_name
+where marks in(90,91);
+
+11.Search Marks between 90 and 100
+SQL>Select * from table_name
+where marks between 90 and 100;
+
+
+12.Update table data
+SQL>Update table_name
+set attribute_name=new value,
+where condition;
+
+13.Delete a specific table:
+SQL>Delete table table_name
+where condition;
+
+
+
+
+
 <>Writter-@RAKTIM BAR <>
