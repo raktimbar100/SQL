@@ -1,0 +1,41 @@
+
+SQL> select * from sailors_name;
+
+       SID SNAME                          RATING                      AGE
+---------- ------------------------------ -------------------- ----------
+       100 RAKTIM                         GOOD                         21
+       101 DEBA                           GOOD                         22
+
+SQL> select * from sailors inner join reserves on sailors.sid=reserves.sid;
+
+       SID SNAME                          RATING                      AGE        SID        BID R_DAY
+---------- ------------------------------ -------------------- ---------- ---------- ---------- ---------
+       100 RAKTIM                         GOOD                         21        100       1001 29-JAN-22
+       101 DEBA                           GOOD                         22        101       1000 12-MAY-23
+
+SQL> select * from sailors left join reserves on sailors.sid=reserves.sid;
+
+       SID SNAME                          RATING                      AGE        SID        BID R_DAY
+---------- ------------------------------ -------------------- ---------- ---------- ---------- ---------
+       100 RAKTIM                         GOOD                         21        100       1001 29-JAN-22
+       101 DEBA                           GOOD                         22        101       1000 12-MAY-23
+       103 RAHUL                          POOR                         19
+       102 RAJ                            VERY GOOD                    20
+
+SQL> select * from sailors right join reserves on sailors.sid=reserves.sid;
+
+       SID SNAME                          RATING                      AGE        SID        BID R_DAY
+---------- ------------------------------ -------------------- ---------- ---------- ---------- ---------
+       100 RAKTIM                         GOOD                         21        100       1001 29-JAN-22
+       101 DEBA                           GOOD                         22        101       1000 12-MAY-23
+
+SQL> select * from sailors full outer join reserves on sailors.sid=reserves.sid;
+
+       SID SNAME                          RATING                      AGE        SID        BID R_DAY
+---------- ------------------------------ -------------------- ---------- ---------- ---------- ---------
+       100 RAKTIM                         GOOD                         21        100       1001 29-JAN-22
+       101 DEBA                           GOOD                         22        101       1000 12-MAY-23
+       102 RAJ                            VERY GOOD                    20
+       103 RAHUL                          POOR                         19
+
+SQL>
