@@ -1,0 +1,12 @@
+There are 5 aggregrate functions in SQL.
+1.Count()
+2.Sum()
+3.Avg()
+4.Min()
+5.Max()
+
+Select count(Attribute_name) from table_name;
+Select Sum(Attribute_name) from table_name;
+Select Avg(Attribute_name) from table_name;
+Select Min(Attribute_name) from table_name;
+Select Max(Attribute_name) from table_name;
