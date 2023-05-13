@@ -1,0 +1,428 @@
+There are 5 aggregrate functions in SQL.
+1.Count()
+2.Sum()
+3.Avg()
+4.Min()
+5.Max()
+
+Select count(Attribute_name) from table_name;
+Select Sum(Attribute_name) from table_name;
+Select Avg(Attribute_name) from table_name;
+Select Min(Attribute_name) from table_name;
+Select Max(Attribute_name) from table_name;
+
+
+Group by:
+
+select attribute names...aggregrate ... from table name group by attriute name;
+
+having:
+select attribute names...aggregrate ... from table name group by attriute name having condition;
+
+SQL> SET PAGESIZE 100;
+SQL> SELECT * FROM STUDENT1;
+
+
+SQL> SET PAGESIZE 30;
+SQL> SET LINESIZE 150;
+SQL> SELECT * FROM STUDENT1;
+
+       SID SNAME                          BRANCH                     PERC GENDER
+---------- ------------------------------ -------------------- ---------- ----------
+       100 RAKTIM BAR                     CSE                          88 MALE
+       101 DEBARGHYA CHAKRAVARTY          ECE                          90 FEMALE
+       102 RAJDEEP KARMAKAR               MC                           91 MALE
+
+SQL> SELECT COUNT(GENDER) FROM STUDENT1 GROUP BY GENDER;
+
+COUNT(GENDER)
+-------------
+            2
+            1
+
+SQL> SELECT GENDER, COUNT(GENDER) FROM STUDENT1 GROUP BY GENDER;
+
+GENDER     COUNT(GENDER)
+---------- -------------
+MALE                   2
+FEMALE                 1
+
+SQL> SELECT GENDER,AVG(PERC) FROM STUDENT1 GROUP BY GENDER;
+
+GENDER      AVG(PERC)
+---------- ----------
+MALE             89.5
+FEMALE             90
+
+SQL>  SELECT GENDER,MAX(PERC) FROM STUDENT1 GROUP BY GENDER;
+
+GENDER      MAX(PERC)
+---------- ----------
+MALE               91
+FEMALE             90
+
+SQL>  SELECT GENDER,MIN(PERC) FROM STUDENT1 GROUP BY GENDER;
+
+GENDER      MIN(PERC)
+---------- ----------
+MALE               88
+FEMALE             90
+
+SQL> SELECT SID,COUNT(BRANCH) FROM STUDENT1 GROUP BY BRANCH HAVING COUNT(SID)=1;
+SELECT SID,COUNT(BRANCH) FROM STUDENT1 GROUP BY BRANCH HAVING COUNT(SID)=1
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> SELECT BRANCH,COUNT(BRANCH) FROM STUDENT1 GROUP BY BRANCH HAVING COUNT(SID)=1;
+
+BRANCH               COUNT(BRANCH)
+-------------------- -------------
+CSE                              1
+ECE                              1
+MC                               1
+
+SQL>  UPDATE STUDENT1
+  2  SET BRANCH='CSE' WHERE SID=101;
+
+1 row updated.
+
+SQL> SELECT BRANCH,COUNT(BRANCH) FROM STUDENT1 GROUP BY BRANCH HAVING COUNT(SID)>1;
+
+BRANCH               COUNT(BRANCH)
+-------------------- -------------
+CSE                              2
+
+SQL> SELECT BRANCH,COUNT(BRANCH) FROM STUDENT1 GROUP BY BRANCH HAVING MIN(PERC)>90;
+
+BRANCH               COUNT(BRANCH)
+-------------------- -------------
+MC                               1
+
+SQL> SELECT *  FROM STUDENT1 GROUP BY BRANCH HAVING MIN(PERC)>90;
+SELECT *  FROM STUDENT1 GROUP BY BRANCH HAVING MIN(PERC)>90
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+N.B:QUESTION OF BOATS,SAILORS,RESERVES
+-----------------------------------
+SQL> CREATE TABLE SAILORS
+  2  (
+  3  SID INTEGER,SNAME VARCHAR(30),RATING VARCHAR(20),AGE INTEGER,PRIMARY KEY(SID));
+
+Table created.
+
+SQL> DESC SAILORS;
+ Name                                                                                Null?    Type
+ ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
+ SID                                                                                 NOT NULL NUMBER(38)
+ SNAME                                                                                        VARCHAR2(30)
+ RATING                                                                                       VARCHAR2(20)
+ AGE                                                                                          NUMBER(38)
+
+SQL> CREATE TABLE BOAT(BID INTEGER,BNAME VARCHAR(30),COLOR VARCHAR(10),PRIMARY KEY(BID));
+
+Table created.
+
+SQL> CREATE TABLE RESERVES(SID INTEGER,BID INTEGER,R_DAY DATE,PRIMARY KEY(SID,BID), FOREIGN KEY(SID) REFERENCES SAILORS(SID),FOREIGN KEY(BID) REFERENCES BOAT(BID));
+
+Table created.
+
+SQL> DESC RESERVES;
+ Name                                                                                Null?    Type
+ ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
+ SID                                                                                 NOT NULL NUMBER(38)
+ BID                                                                                 NOT NULL NUMBER(38)
+ R_DAY                                                                                        DATE
+
+SQL> INSERT INTO SAILORS VALUES('&SID','&SNAME','&RATING','&AGE');
+Enter value for sid: 100
+Enter value for sname: RAKTIM
+Enter value for rating: GOOD
+Enter value for age: 21
+old   1: INSERT INTO SAILORS VALUES('&SID','&SNAME','&RATING','&AGE')
+new   1: INSERT INTO SAILORS VALUES('100','RAKTIM','GOOD','21')
+
+1 row created.
+
+SQL> /
+Enter value for sid: 101
+Enter value for sname: DEBA
+Enter value for rating: GOOD
+Enter value for age: 22
+old   1: INSERT INTO SAILORS VALUES('&SID','&SNAME','&RATING','&AGE')
+new   1: INSERT INTO SAILORS VALUES('101','DEBA','GOOD','22')
+
+1 row created.
+
+SQL> /
+Enter value for sid: 102
+Enter value for sname: RAJ
+Enter value for rating: VERY GOOD
+Enter value for age: 20
+old   1: INSERT INTO SAILORS VALUES('&SID','&SNAME','&RATING','&AGE')
+new   1: INSERT INTO SAILORS VALUES('102','RAJ','VERY GOOD','20')
+
+1 row created.
+
+SQL> /
+Enter value for sid: 103
+Enter value for sname: RAHUL
+Enter value for rating: POOR
+Enter value for age: 19
+old   1: INSERT INTO SAILORS VALUES('&SID','&SNAME','&RATING','&AGE')
+new   1: INSERT INTO SAILORS VALUES('103','RAHUL','POOR','19')
+
+1 row created.
+
+SQL>  INSERT INTO BOAT VALUES('&BID','&BNAME','&COLOR');
+Enter value for bid: 1000
+Enter value for bname: SHYAM
+Enter value for color: GREEN
+old   1:  INSERT INTO BOAT VALUES('&BID','&BNAME','&COLOR')
+new   1:  INSERT INTO BOAT VALUES('1000','SHYAM','GREEN')
+
+1 row created.
+
+SQL> /
+Enter value for bid: 1001
+Enter value for bname: RAKTIM
+Enter value for color: RED
+old   1:  INSERT INTO BOAT VALUES('&BID','&BNAME','&COLOR')
+new   1:  INSERT INTO BOAT VALUES('1001','RAKTIM','RED')
+
+1 row created.
+
+SQL> /
+Enter value for bid: 1002
+Enter value for bname: RAM
+Enter value for color: BLUE
+old   1:  INSERT INTO BOAT VALUES('&BID','&BNAME','&COLOR')
+new   1:  INSERT INTO BOAT VALUES('1002','RAM','BLUE')
+
+1 row created.
+
+SQL>  INSERT INTO RESERVE VALUES('&SID','&BID','&DATE');
+Enter value for sid: 100
+Enter value for bid: 1001
+Enter value for date: 12-JAN-2020
+old   1:  INSERT INTO RESERVE VALUES('&SID','&BID','&DATE')
+new   1:  INSERT INTO RESERVE VALUES('100','1001','12-JAN-2020')
+ INSERT INTO RESERVE VALUES('100','1001','12-JAN-2020')
+             *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> /
+Enter value for sid: 100
+Enter value for bid: 1001
+Enter value for date: 12-JAN-2001
+old   1:  INSERT INTO RESERVE VALUES('&SID','&BID','&DATE')
+new   1:  INSERT INTO RESERVE VALUES('100','1001','12-JAN-2001')
+ INSERT INTO RESERVE VALUES('100','1001','12-JAN-2001')
+             *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL>  INSERT INTO RESERVE VALUES('&SID','&BID',DATE);
+Enter value for sid: 100
+Enter value for bid: 1001
+old   1:  INSERT INTO RESERVE VALUES('&SID','&BID',DATE)
+new   1:  INSERT INTO RESERVE VALUES('100','1001',DATE)
+ INSERT INTO RESERVE VALUES('100','1001',DATE)
+                                         *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> ALTER TABLE RESERVE
+  2  MODIFY DAY DATE;
+ALTER TABLE RESERVE
+*
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> ALTER TABLE RESERVE
+  2  DROP DATE;
+DROP DATE
+     *
+ERROR at line 2:
+ORA-00905: missing keyword
+
+
+SQL>  INSERT INTO RESERVE VALUES('&SID','&BID','&R_DAY');
+Enter value for sid: 100
+Enter value for bid: 1001
+Enter value for r_day: 12052022
+old   1:  INSERT INTO RESERVE VALUES('&SID','&BID','&R_DAY')
+new   1:  INSERT INTO RESERVE VALUES('100','1001','12052022')
+ INSERT INTO RESERVE VALUES('100','1001','12052022')
+             *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL>  INSERT INTO RESERVES VALUES('&SID','&BID','&R_DAY');
+Enter value for sid: 100
+Enter value for bid: 1001
+Enter value for r_day: 29052022
+old   1:  INSERT INTO RESERVES VALUES('&SID','&BID','&R_DAY')
+new   1:  INSERT INTO RESERVES VALUES('100','1001','29052022')
+ INSERT INTO RESERVES VALUES('100','1001','29052022')
+                                          *
+ERROR at line 1:
+ORA-01861: literal does not match format string
+
+
+SQL> /
+Enter value for sid: 100
+Enter value for bid: 1001
+Enter value for r_day: 23042022
+old   1:  INSERT INTO RESERVES VALUES('&SID','&BID','&R_DAY')
+new   1:  INSERT INTO RESERVES VALUES('100','1001','23042022')
+ INSERT INTO RESERVES VALUES('100','1001','23042022')
+                                          *
+ERROR at line 1:
+ORA-01861: literal does not match format string
+
+
+SQL>  INSERT INTO RESERVES VALUES('&SID','&BID',R_DAY);
+Enter value for sid: 100
+Enter value for bid: 1001
+old   1:  INSERT INTO RESERVES VALUES('&SID','&BID',R_DAY)
+new   1:  INSERT INTO RESERVES VALUES('100','1001',R_DAY)
+ INSERT INTO RESERVES VALUES('100','1001',R_DAY)
+                                          *
+ERROR at line 1:
+ORA-00984: column not allowed here
+
+
+SQL> /
+Enter value for sid: 100
+Enter value for bid: 1001
+old   1:  INSERT INTO RESERVES VALUES('&SID','&BID',R_DAY)
+new   1:  INSERT INTO RESERVES VALUES('100','1001',R_DAY)
+ INSERT INTO RESERVES VALUES('100','1001',R_DAY)
+                                          *
+ERROR at line 1:
+ORA-00984: column not allowed here
+
+
+SQL>  INSERT INTO RESERVES VALUES('&SID','&BID','&R_DAY');
+Enter value for sid: 100
+Enter value for bid: 1001
+Enter value for r_day: 29-JAN-2022
+old   1:  INSERT INTO RESERVES VALUES('&SID','&BID','&R_DAY')
+new   1:  INSERT INTO RESERVES VALUES('100','1001','29-JAN-2022')
+
+1 row created.
+
+SQL> /
+Enter value for sid: 101
+Enter value for bid: 1000
+Enter value for r_day: 12-MAY-2023
+old   1:  INSERT INTO RESERVES VALUES('&SID','&BID','&R_DAY')
+new   1:  INSERT INTO RESERVES VALUES('101','1000','12-MAY-2023')
+
+1 row created.
+
+SQL> SELECT * FROM SAILOR;
+SELECT * FROM SAILOR
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> SELECT * FROM SAILORS;
+
+       SID SNAME                          RATING                      AGE
+---------- ------------------------------ -------------------- ----------
+       100 RAKTIM                         GOOD                         21
+       101 DEBA                           GOOD                         22
+       102 RAJ                            VERY GOOD                    20
+       103 RAHUL                          POOR                         19
+
+SQL> SELECT * FROM BOAT;
+
+       BID BNAME                          COLOR
+---------- ------------------------------ ----------
+      1000 SHYAM                          GREEN
+      1001 RAKTIM                         RED
+      1002 RAM                            BLUE
+
+SQL> SELECT * FROM RESERVES;
+
+       SID        BID R_DAY
+---------- ---------- ---------
+       100       1001 29-JAN-22
+       101       1000 12-MAY-23
+
+SQL> SELECT SNAME FROM SAILORS,RESERVES WHERE SAILORS.SID=RESERVES.SID AND BID=1001;
+
+SNAME
+------------------------------
+RAKTIM
+
+SQL> SELECT SNAME FROM SAILORS,BOAT,RESERVES WHERE SAILORS.SID=RESERVES.SID AND BOAT.BID='RED';
+SELECT SNAME FROM SAILORS,BOAT,RESERVES WHERE SAILORS.SID=RESERVES.SID AND BOAT.BID='RED'
+                                                                                    *
+ERROR at line 1:
+ORA-01722: invalid number
+
+
+SQL> SELECT SNAME SAILORS,RESERVES,BOAT FROM SAILORS WHERE SAILORS.SID=RESERVES.SID AND RESERVES.BID=BOAT.BID AND BOAT.COLOR='RED';
+SELECT SNAME SAILORS,RESERVES,BOAT FROM SAILORS WHERE SAILORS.SID=RESERVES.SID AND RESERVES.BID=BOAT.BID AND BOAT.COLOR='RED'
+                                                                                                             *
+ERROR at line 1:
+ORA-00904: "BOAT"."COLOR": invalid identifier
+
+
+SQL>  SELECT SNAME FROM  SAILORS,RESERVES,BOAT WHERE SAILORS.SID=RESERVES.SID AND RESERVES.BID=BOAT.BID AND BOAT.COLOR='RED';
+
+SNAME
+------------------------------
+RAKTIM
+
+SQL>  SELECT SNAME FROM  SAILORS,RESERVES,BOAT WHERE SAILORS.SID=RESERVES.SID AND BOAT.COLOR='RED';
+
+SNAME
+------------------------------
+RAKTIM
+DEBA
+
+SQL> SELECT COLOR FROM SAILORS,BOAT,RESERVES WHERE BOAT.BID=RESERVES.BID AND RESERVES.SID=SAILORS.SID AND SAILORS.SNAME='
+  2  Raktim';
+
+no rows selected
+
+SQL>  SELECT COLOR FROM SAILORS,BOAT,RESERVES WHERE BOAT.BID=RESERVES.BID AND RESERVES.SID=SAILORS.SID AND SAILORS.SNAME='Shyam';
+
+no rows selected
+
+SQL>  SELECT COLOR FROM BOAT,RESERVES,sailors WHERE BOAT.BID=RESERVES.BID AND RESERVES.SID=SAILORS.SID AND SAILORS.SNAME='Raktim
+  2  ';
+
+no rows selected
+
+SQL>  SELECT COLOR FROM BOAT,RESERVES,sailors WHERE BOAT.BID=RESERVES.BID AND RESERVES.SID=SAILORS.SID AND SAILORS.SNAME='RAKTIM';
+
+COLOR
+----------
+RED
+
+SQL> select sname from sailors,boat,reserves where sailors.sid=reserves.sid and reserves.bid=boat.bid;
+
+SNAME
+------------------------------
+RAKTIM
+DEBA
+
+
+WHAT IS A VIEW ?:IT IS A VIRTUAL REPRESENTATION OF A TABLE MEANS WE KNOW THAT IF THERE ARE MORE THAN 1 TABLE WHICH ARE INTELINKED BUT CHANGES IN 1 TABLE NOT REFLECTED IN MAIN TABLE BUT IT CAN CREATE A BIG PROBLEM IN DATA SECURITY THATS WHY WE CREATE VIEW FOR ANY CHANGED THE VIEW OR VIRTUAL TABLE WILL BE UPDATED.
+SYNTAX:
+ create view {VIEW NAME} as select * from {TABLE NAME} where {CONDITION};
